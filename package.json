@@ -8,10 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "emulators": "npx firebase emulators:start",
-    "start-db": "docker-compose up -d",
-    "stop-db": "docker-compose down",
-    "generate-migration": "drizzle-kit generate:pg --out db/migrations --schema db/schema.ts",
-    "migrate": "ts-node -P db/db.tsconfig.json db/migrate"
+    "db:start": "docker-compose up -d",
+    "db:stop": "docker-compose down",
+    "db:studio": "npx drizzle-kit studio",
+    "db:generate-migration-file": "drizzle-kit generate:pg --out db/migrations --schema db/schema.ts",
+    "db:migrate": "ts-node -P db/db.tsconfig.json db/migrate"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",

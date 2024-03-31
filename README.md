@@ -1,10 +1,11 @@
 ### How to run app
 
-> docker が動作するので、止めたければ pnpm stop-db をしてください
+> docker が動作するので、止めたければ pnpm db:stop をしてください
 
 ```bash
 pnpm i
-pnpm start-db
+pnpm db:start
+pnpm db:studio
 pnpm dev
 ```
 
@@ -48,10 +49,18 @@ javac --version
 
 ### drizzle の使い方
 
-> <a href="https://orm.drizzle.team/docs/column-types/pg">https://orm.drizzle.team/docs/column-types/pg</a>
+> <a href="https://orm.drizzle.team/docs/column-types/pg">公式 URL https://orm.drizzle.team/docs/column-types/pg</a>
 
-```マイグレーションファイルの生成
-pnpm generate-migration
+<b>マイグレーションファイルの生成<b/>
+
+```
+pnpm db:generate-migration-file
+```
+
+<b>マイグレーションの実行</b>
+
+```
+pnpm db:migrate
 ```
 
 ### node バージョン情報
