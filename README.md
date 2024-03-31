@@ -49,18 +49,24 @@ javac --version
 
 ### drizzle の使い方
 
-> <a href="https://orm.drizzle.team/docs/column-types/pg">公式 URL https://orm.drizzle.team/docs/column-types/pg</a>
+> <a href="https://orm.drizzle.team/docs/column-types/pg">公式 URL https://orm.drizzle.team/docs/column-types/pg</a><br /> <a href="https://orm.drizzle.team/drizzle-studio/overview">公式 URL https://orm.drizzle.team/drizzle-studio/overview</a>
 
 <b>マイグレーションファイルの生成<b/>
 
 ```
-pnpm db:generate-migration-file
+pnpm db:migration
 ```
 
 <b>マイグレーションの実行</b>
 
 ```
-pnpm db:migrate
+pnpm db:push
+```
+
+<b>マイグレーションファイルの削除方法</b>
+
+```
+db:drop
 ```
 
 ### node バージョン情報
