@@ -21,6 +21,8 @@ npx shadcn-ui@latest add [component name]
 
 ### firebase エミュレータの起動
 
+> <a href="https://console.firebase.google.com/u/0/project/skillio-workbook/authentication/providers?hl=ja">本番　 https://console.firebase.google.com/u/0/project/skillio-workbook/authentication/providers?hl=ja</a>
+
 ```
 pnpm run emulators
 ```
