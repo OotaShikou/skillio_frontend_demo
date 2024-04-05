@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "db/migrate.mjs"
+    "db/migrate.mjs",
+    "./jest.setup.js"
   ],
   "exclude": ["node_modules"]
 }

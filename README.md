@@ -5,8 +5,8 @@
 ```bash
 pnpm i
 pnpm db:start
-pnpm db:studio
 pnpm dev
+pnpm db:studio
 ```
 
 ### shadcn ui の使い方
@@ -71,6 +71,14 @@ pnpm db:push
 pnpm db:drop
 ```
 
+### Plopによるテンプレートソースコード生成
+
+> componentのテンプレートを作成
+
+```
+pnpm gen:component
+```
+
 ### node バージョン情報
 
 ```
@@ -82,4 +90,4 @@ v21.7.1
 
 ### 本番環境 Vercel
 
-> <a href="https://skillio.vercel.app/">main 変更時反映されます https://skillio.vercel.app/ </a>
+> <a href="https://skillio.vercel.app/">main 変更時反映されます https://skillio.vercel.app/ </a> <br /> > <a href="https://vercel.com/ootashikous-projects/skillio">dashbord https://vercel.com/ootashikous-projects/skillio</a>
