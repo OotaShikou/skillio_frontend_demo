@@ -29,5 +29,9 @@
     "*.ts": "$(capture).test.ts, $(capture).test.tsx",
     "*.tsx": "$(capture).test.ts, $(capture).test.tsx"
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    // ファイル保存時に ESLint でフォーマット
+    "source.fixAll.eslint": true
+  }
 }

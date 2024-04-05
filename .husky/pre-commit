@@ -1,2 +1,3 @@
  pnpm test
+ npx next lint
  npx lint-staged

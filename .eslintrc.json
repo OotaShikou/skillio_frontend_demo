@@ -7,7 +7,7 @@
   ],
   "plugins": ["import", "unused-imports"], // import の順番を制御
   "parserOptions": {
-    "project": ["./tsconfig.json"] // 追加
+    "project": "./tsconfig.json"
   },
   "rules": {
     "@typescript-eslint/no-unused-vars": "off", // unused-imports/no-unused-imports で代用
