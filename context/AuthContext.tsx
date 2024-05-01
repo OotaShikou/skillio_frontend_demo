@@ -23,7 +23,6 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log('user change')
         setUser(user)
       } else {
         setUser(null)

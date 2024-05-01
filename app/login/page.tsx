@@ -2,8 +2,7 @@
 
 import { signInWithRedirect } from 'firebase/auth'
 
-// AuthContextからフックをインポート
-import { useAuthContext } from '@/context/AuthContext' // AuthContextからフックをインポート
+import { useAuthContext } from '@/context/AuthContext'
 import { auth, googleProvider } from '@/lib/firebase-config'
 
 export default function SignIn() {
@@ -13,10 +12,9 @@ export default function SignIn() {
   const { user } = useAuthContext()
   async function fetchUserData() {
     const token = await user?.getIdToken()
-    console.log(token)
 
     try {
-      const response = await fetch('/api/checkIsLogin', {
+      const response = await fetch('/api/user', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -28,7 +26,8 @@ export default function SignIn() {
       }
 
       const userData = await response.json()
-      console.log('User data:', userData)
+      console.log(userData)
+
       return userData
     } catch (error) {
       console.error('Error fetching user data:', error)
