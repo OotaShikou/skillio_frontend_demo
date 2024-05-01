@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase-admin/auth'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 import { customInitApp } from './firebase-admin-config'
 
@@ -8,10 +8,10 @@ customInitApp()
 export async function authenticateToken(req: NextRequest) {
   const authHeader = req.headers.get('authorization')
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return NextResponse.json({
+    return {
       error: 'Bearer authentication required',
       status: 401,
-    })
+    }
   }
 
   const token = authHeader.split(' ')[1]
