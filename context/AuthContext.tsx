@@ -11,7 +11,6 @@ interface AuthContextType {
   user: User | null
 }
 export const AuthContext = React.createContext<AuthContextType>({ user: null })
-
 export const useAuthContext = () => React.useContext(AuthContext)
 
 export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -20,17 +19,10 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [loading, setLoading] = React.useState<boolean>(true)
 
   React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user)
-      } else {
-        setUser(null)
-        router.push('/login')
-      }
+    return onAuthStateChanged(auth, (user) => {
+      user ? setUser(user) : (setUser(null), router.push('/login'))
       setLoading(false)
     })
-
-    return () => unsubscribe()
   }, [router])
 
   return (
