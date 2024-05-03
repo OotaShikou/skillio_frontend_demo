@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import LoginForm from '@/components/auth/LoginForm'
+import LoginForm from '@/components/Auth/LoginForm'
 import { buttonVariants } from '@/components/ui/button'
 
 import { cn } from '@/lib/utils'

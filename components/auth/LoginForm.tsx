@@ -1,5 +1,5 @@
 'use client'
-import { getRedirectResult, signInWithRedirect } from 'firebase/auth'
+import { getRedirectResult, signInWithRedirect, signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -16,16 +16,22 @@ interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 const LoginForm = ({ className, ...props }: LoginFormProps) => {
   const router = useRouter()
   const [isLoading] = React.useState<boolean>(false)
+  const [email, setEmail] = React.useState<string>('')
+  const [password, setPassword] = React.useState<string>('')
+
   function signInByGoogle() {
     void signInWithRedirect(auth, googleProvider)
   }
   function signInByGithub() {
     void signInWithRedirect(auth, githubProvider)
   }
+  function signInByEmail() {
+    void signInWithEmailAndPassword(auth, email, password)
+  }
 
   React.useEffect(() => {
     getRedirectResult(auth)
-      .then((result) => result && router.push('/dashboard'))
+      .then((result) => result && (router.push('/dashboard'), console.log(auth)))
       .catch((error) => console.error('Authentication failed', error))
   }, [router])
 
@@ -45,6 +51,8 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
               autoCapitalize="none"
               autoComplete="email"
               disabled={isLoading}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               id="password"
@@ -52,9 +60,11 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
               placeholder="password"
               type="password"
               disabled={isLoading}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} onClick={() => signInByEmail()}>
             {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
             Login with Email
           </Button>

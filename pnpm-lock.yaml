@@ -25,7 +25,7 @@ dependencies:
     version: 0.30.6(@types/pg@8.11.4)(@types/react@18.2.73)(pg@8.11.4)(react@18.2.0)
   drizzle-zod:
     specifier: ^0.5.1
-    version: 0.5.1(drizzle-orm@0.30.6)(zod@3.22.4)
+    version: 0.5.1(drizzle-orm@0.30.6)(zod@3.23.6)
   firebase:
     specifier: ^10.10.0
     version: 10.10.0
@@ -53,6 +53,9 @@ dependencies:
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.3)
+  zod:
+    specifier: ^3.23.6
+    version: 3.23.6
 
 devDependencies:
   '@testing-library/jest-dom':
@@ -1587,14 +1590,14 @@ packages:
     engines: {node: '>=18.14.1'}
     dev: true
 
-  /@hono/zod-validator@0.2.1(hono@4.2.9)(zod@3.22.4):
+  /@hono/zod-validator@0.2.1(hono@4.2.9)(zod@3.23.6):
     resolution: {integrity: sha512-HFoxln7Q6JsE64qz2WBS28SD33UB2alp3aRKmcWnNLDzEL1BLsWfbdX6e1HIiUprHYTIXf5y7ax8eYidKUwyaA==}
     peerDependencies:
       hono: '>=3.9.0'
       zod: ^3.19.1
     dependencies:
       hono: 4.2.9
-      zod: 3.22.4
+      zod: 3.23.6
     dev: true
 
   /@humanwhocodes/config-array@0.11.14:
@@ -4359,7 +4362,7 @@ packages:
     dependencies:
       '@esbuild-kit/esm-loader': 2.6.5
       '@hono/node-server': 1.11.1
-      '@hono/zod-validator': 0.2.1(hono@4.2.9)(zod@3.22.4)
+      '@hono/zod-validator': 0.2.1(hono@4.2.9)(zod@3.23.6)
       camelcase: 7.0.1
       chalk: 5.3.0
       commander: 9.5.0
@@ -4373,7 +4376,7 @@ packages:
       minimatch: 7.4.6
       semver: 7.6.0
       superjson: 2.2.1
-      zod: 3.22.4
+      zod: 3.23.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4464,14 +4467,14 @@ packages:
       react: 18.2.0
     dev: false
 
-  /drizzle-zod@0.5.1(drizzle-orm@0.30.6)(zod@3.22.4):
+  /drizzle-zod@0.5.1(drizzle-orm@0.30.6)(zod@3.23.6):
     resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
     peerDependencies:
       drizzle-orm: '>=0.23.13'
       zod: '*'
     dependencies:
       drizzle-orm: 0.30.6(@types/pg@8.11.4)(@types/react@18.2.73)(pg@8.11.4)(react@18.2.0)
-      zod: 3.22.4
+      zod: 3.23.6
     dev: false
 
   /duplexify@4.1.3:
@@ -11562,5 +11565,5 @@ packages:
       readable-stream: 3.6.2
     dev: true
 
-  /zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  /zod@3.23.6:
+    resolution: {integrity: sha512-RTHJlZhsRbuA8Hmp/iNL7jnfc4nZishjsanDAfEY1QpDQZCahUp3xDzl+zfweE9BklxMUcgBgS1b7Lvie/ZVwA==}
