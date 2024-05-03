@@ -1,10 +1,10 @@
-import * as dotenv from 'dotenv'
+import { loadEnvConfig } from '@next/env'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
 
 import * as schema from './schema'
 
-dotenv.config({ path: '../.env.local' })
+loadEnvConfig(process.cwd())
 
 export const DatabaseError = pg.DatabaseError
 
