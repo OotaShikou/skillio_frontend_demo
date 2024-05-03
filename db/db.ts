@@ -4,7 +4,7 @@ import pg from 'pg'
 
 import * as schema from './schema'
 
-dotenv.config()
+dotenv.config({ path: '../.env.local' })
 
 export const DatabaseError = pg.DatabaseError
 
