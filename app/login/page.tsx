@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import LoginForm from '@/components/auth/LoginForm'
+import LoginForm from '@/components/Auth/LoginForm'
 import { buttonVariants } from '@/components/ui/button'
 
 import { cn } from '@/lib/utils'
@@ -19,10 +19,10 @@ const page = async () => {
     <>
       <div className="container relative grid h-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href="/examples/authentication"
+          href="/register"
           className={cn(buttonVariants({ variant: 'ghost' }), 'absolute right-4 top-4 md:right-8 md:top-8')}
         >
-          SignIn
+          SignUp
         </Link>
         <div className="absolute -z-30 flex h-full w-screen flex-col bg-muted px-8 pb-2 pt-5 text-white dark:border-r md:p-10 lg:relative lg:w-auto">
           <div className="absolute inset-0 bg-zinc-900 bg-[url(https://unsplash.it/700/500/)] bg-cover" />

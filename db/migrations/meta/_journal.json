@@ -8,6 +8,13 @@
       "when": 1711892088945,
       "tag": "0000_slim_major_mapleleaf",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1714699761939,
+      "tag": "0001_lazy_warbound",
+      "breakpoints": true
     }
   ]
 }

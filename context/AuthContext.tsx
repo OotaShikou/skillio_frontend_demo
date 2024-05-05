@@ -1,6 +1,6 @@
 'use client'
 import { onAuthStateChanged } from 'firebase/auth'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import React from 'react'
 
 import { auth } from '@/lib/firebase-config'
@@ -15,15 +15,22 @@ export const useAuthContext = () => React.useContext(AuthContext)
 
 export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter()
+  const pathname = usePathname()
   const [user, setUser] = React.useState<User | null>(null)
   const [loading, setLoading] = React.useState<boolean>(true)
 
   React.useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
-      user ? setUser(user) : (setUser(null), router.push('/login'))
+      if (user) {
+        setUser(user)
+        // pathname === '/login' && router.push('/dashboard')
+      } else {
+        setUser(null)
+        router.push('/login')
+      }
       setLoading(false)
     })
-  }, [router])
+  }, [router, pathname])
 
   return (
     <AuthContext.Provider value={{ user }}>{loading ? <div>Loading...</div> : children}</AuthContext.Provider>
