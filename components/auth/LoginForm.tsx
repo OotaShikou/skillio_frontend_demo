@@ -1,5 +1,10 @@
 'use client'
-import { signInWithRedirect, signInWithEmailAndPassword, getRedirectResult } from 'firebase/auth'
+import {
+  signInWithRedirect,
+  signInWithEmailAndPassword,
+  getRedirectResult,
+  UserCredential,
+} from 'firebase/auth'
 import React from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -26,14 +31,15 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
   }
   const signInByEmail = () => {
     signInWithEmailAndPassword(auth, email, password)
+      .then(async (result) => updateUser(result))
+      .catch((error) => console.error(error))
   }
-  const updateUser = async (
-    uid?: string,
-    email?: string | null,
-    name?: string | null,
-    photoURL?: string | null,
-    accessToken?: string,
-  ) => {
+  const updateUser = async (result: UserCredential) => {
+    const email = result.user.email
+    const uid = result.user.uid
+    const name = result.user.displayName
+    const accessToken = await result.user.getIdToken()
+    const photoURL = result.user.photoURL
     await fetchWithAuth('/api/user', 'POST', {
       body: { email, uid, name, photoURL },
       accessToken,
@@ -42,21 +48,8 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
 
   React.useEffect(() => {
     getRedirectResult(auth)
-      .then(async (result) => {
-        const email = result?.user.email
-        const uid = result?.user.uid
-        const name = result?.user.displayName
-        const accessToken = await result?.user.getIdToken()
-        const photoURL = result?.user.photoURL
-        console.log(result)
-
-        if (result !== null) {
-          updateUser(uid, email, name, photoURL, accessToken)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+      .then(async (result) => result !== null && updateUser(result))
+      .catch((error) => console.error(error))
   }, [])
 
   return (

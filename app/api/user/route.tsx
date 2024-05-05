@@ -20,18 +20,14 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
 
   if (!body.uid) {
-    const message = 'UIDが必要です'
-    console.log(message)
-    return NextResponse.json({ message })
+    return NextResponse.json({ message: 'UIDが必要です' })
   }
 
   try {
     const existingUser = await db.select().from(users).where(eq(users.uid, body.uid))
 
     if (existingUser.length > 0) {
-      const message = 'このUIDは既に登録されています'
-      console.log(message)
-      return NextResponse.json({ message })
+      return NextResponse.json({ message: 'このUIDは既に登録されています' })
     }
 
     const newUser = await db.insert(users).values({
