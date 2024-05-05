@@ -1,5 +1,5 @@
 'use client'
-import { signInWithRedirect, signInWithEmailAndPassword, getRedirectResult } from 'firebase/auth'
+import { signInWithRedirect, createUserWithEmailAndPassword } from 'firebase/auth'
 import React from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -7,14 +7,14 @@ import { Icons } from '@/components/ui/icons'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import fetchWithAuth from '@/lib/clientApi'
 import { auth, googleProvider, githubProvider } from '@/lib/firebase-config'
 import { cn } from '@/lib/utils'
 
-interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface RegisterFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const LoginForm = ({ className, ...props }: LoginFormProps) => {
+const RegisterForm = ({ className, ...props }: RegisterFormProps) => {
   const [isLoading] = React.useState<boolean>(false)
+  const [username, setUsername] = React.useState<string>('')
   const [email, setEmail] = React.useState<string>('')
   const [password, setPassword] = React.useState<string>('')
 
@@ -24,40 +24,9 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
   const signInByGithub = () => {
     signInWithRedirect(auth, githubProvider)
   }
-  const signInByEmail = () => {
-    signInWithEmailAndPassword(auth, email, password)
+  const signUpByEmail = () => {
+    createUserWithEmailAndPassword(auth, email, password)
   }
-  const updateUser = async (
-    uid?: string,
-    email?: string | null,
-    name?: string | null,
-    photoURL?: string | null,
-    accessToken?: string,
-  ) => {
-    await fetchWithAuth('/api/user', 'POST', {
-      body: { email, uid, name, photoURL },
-      accessToken,
-    })
-  }
-
-  React.useEffect(() => {
-    getRedirectResult(auth)
-      .then(async (result) => {
-        const email = result?.user.email
-        const uid = result?.user.uid
-        const name = result?.user.displayName
-        const accessToken = await result?.user.getIdToken()
-        const photoURL = result?.user.photoURL
-        console.log(result)
-
-        if (result !== null) {
-          updateUser(uid, email, name, photoURL, accessToken)
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [])
 
   return (
     <div className={cn('grid gap-3', className)} {...props}>
@@ -67,6 +36,15 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
+            <Input
+              id="username"
+              name="username"
+              placeholder="username"
+              type="text"
+              disabled={isLoading}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <Input
               id="email"
               name="email"
@@ -88,9 +66,9 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={isLoading} onClick={() => signInByEmail()}>
+          <Button type="submit" disabled={isLoading} onClick={() => signUpByEmail()}>
             {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-            Login with Email
+            SignUp with Email
           </Button>
         </div>
       </form>
@@ -124,4 +102,4 @@ const LoginForm = ({ className, ...props }: LoginFormProps) => {
   )
 }
 
-export default LoginForm
+export default RegisterForm
