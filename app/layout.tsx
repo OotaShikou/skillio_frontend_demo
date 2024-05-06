@@ -1,11 +1,10 @@
 import { Inter } from 'next/font/google'
 import React from 'react'
 
-import { AuthContextProvider } from '@/context/AuthContext'
+import RecoilContainer from '@/components/Container/recoilContainer'
 
 import type { Metadata } from 'next'
 import './globals.css'
-
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -19,9 +18,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body className={inter.className}>
-        <AuthContextProvider>{children}</AuthContextProvider>
+        <RecoilContainer>{children}</RecoilContainer>
       </body>
     </html>
   )

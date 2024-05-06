@@ -1,14 +1,15 @@
 import { Search } from 'lucide-react'
 import React from 'react'
+import { useRecoilValue } from 'recoil'
 
-import { useAuthContext } from '@/context/AuthContext'
+import { authState } from '@/recoil/atoms/authState'
 
 import { MainNav } from './MainNav'
 import TeamSwitcher from './TeamSwitcher'
 import { UserNav } from './UserNav'
 
 const HeaderNav = () => {
-  const { user } = useAuthContext()
+  const user = useRecoilValue(authState)
 
   return (
     <div className="flex h-16 items-center px-4">
