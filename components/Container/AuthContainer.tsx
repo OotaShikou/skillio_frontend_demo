@@ -17,11 +17,9 @@ const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
-      setUser(user)
+      setUser({ displayName: user?.displayName, email: user?.email, photoUrl: user?.photoURL })
       if (user) {
-        if (pathname === '/login' || pathname === '/register') {
-          router.push('/dashboard')
-        }
+        if (pathname === '/' || pathname === '/login' || pathname === '/register') router.push('/dashboard')
       } else {
         router.push('/login')
       }

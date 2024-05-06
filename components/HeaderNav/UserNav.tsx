@@ -1,4 +1,5 @@
-import { User } from 'firebase/auth'
+'use client'
+import { signOut } from 'firebase/auth'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -13,13 +14,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
+import { auth } from '@/lib/firebase-config'
+import { User } from '@/types/user'
+
 export function UserNav({ user }: { user: User | null }) {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      console.log('Logged out successfully')
+    } catch (error) {
+      console.error('Logout failed', error)
+    }
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user?.photoURL ?? '/avatars/01.png'} />
+            <AvatarImage src={user?.photoUrl ?? '/avatars/01.png'} />
             <AvatarFallback>{(user?.displayName ?? user?.email)?.charAt(0)}</AvatarFallback>
           </Avatar>
         </Button>
@@ -48,10 +60,7 @@ export function UserNav({ user }: { user: User | null }) {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -79,6 +79,11 @@ pnpm db:drop
 pnpm gen:component
 ```
 
+### Iconsを利用したい場合
+
+> <a href="https://www.radix-ui.com/icons">https://www.radix-ui.com/icons</a> <br />
+> オリジナルのicon svgを登録したい場合は,components/Icons/CustomIcons.tsxを編集してください
+
 ### node バージョン情報
 
 ```
