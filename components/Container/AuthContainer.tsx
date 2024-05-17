@@ -31,8 +31,8 @@ const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           await fetchWithAuth('/api/user', 'GET', {
             accessToken: await user.getIdToken(),
           }).then((res) => {
-            const fetchedUserData = res.user[0]
-            setCookie(null, 'userData', JSON.stringify(fetchedUserData), {
+            const userData = res.user[0]
+            setCookie(null, 'userData', JSON.stringify(userData), {
               maxAge: 3600 * 24 * 7,
               path: '/',
             })
