@@ -1,3 +1,4 @@
+import { type InferSelectModel } from 'drizzle-orm'
 import { pgTable, text, timestamp, uuid, index, pgEnum } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
@@ -9,6 +10,7 @@ export const users = pgTable('users', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 })
+export type User = InferSelectModel<typeof users>
 
 export const workbook = pgTable(
   'workbook',

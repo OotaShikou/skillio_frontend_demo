@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 
-import type { User } from '@/types/user'
+import { User } from '@/db/schema'
 
 export const authState = atom<User | null>({
   key: 'authState', // このキーはグローバルにユニークである必要があります
