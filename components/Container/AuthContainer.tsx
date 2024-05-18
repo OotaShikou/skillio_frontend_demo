@@ -23,12 +23,10 @@ const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const setRecoilUser = useSetRecoilState(authState)
   const currentUser = useRecoilValue(authState)
   const [loading, setLoading] = useState<boolean>(currentUser ? true : false)
+  const isNotCheckAuthPage = ['/', '/login', '/register'].includes(pathname)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log(`user: ${user}`)
-      console.log(`currentUser: ${currentUser}`)
-      console.log(`cookies: ${cookies}`)
       if (user) {
         let userData: User = cookies.userData ? JSON.parse(cookies.userData) : null
         userData && setRecoilUser(userData)
@@ -44,7 +42,7 @@ const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             setRecoilUser(userData)
           })
         }
-        if (['/', '/login', '/register'].includes(pathname)) router.push('/dashboard')
+        if (isNotCheckAuthPage) router.push('/dashboard')
       } else {
         setRecoilUser(null)
         destroyCookie(null, 'userData')
@@ -63,16 +61,14 @@ const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         <div className="flex h-screen w-screen items-center justify-center">
           <Icons.spinner className="mr-2 h-8 w-8 animate-spin" color="purple" />
         </div>
-      ) : currentUser ? (
+      ) : (
         <div>
-          <HeaderNav />
-          <div className="grid border-t lg:grid-cols-5">
-            <Sidebar />
+          {!isNotCheckAuthPage && <HeaderNav />}
+          <div className={isNotCheckAuthPage ? '' : 'grid border-t lg:grid-cols-5'}>
+            {!isNotCheckAuthPage && <Sidebar />}
             <div className="col-span-3 lg:col-span-4 lg:border-l">{children}</div>
           </div>
         </div>
-      ) : (
-        <>{children}</>
       )}
     </div>
   )
