@@ -6,6 +6,8 @@ import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
+import HeaderNav from '@/components/HeaderNav/HeaderNav'
+import { Sidebar } from '@/components/Sidebar/Sidebar'
 import { Icons } from '@/components/ui/icons'
 
 import { User } from '@/db/schema'
@@ -13,17 +15,15 @@ import fetchWithAuth from '@/lib/clientApi'
 import { auth } from '@/lib/firebase-config'
 import { authState } from '@/recoil/atoms/authState'
 
-import HeaderNav from '../HeaderNav/HeaderNav'
-import { Sidebar } from '../Sidebar/Sidebar'
-
 const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter()
   const pathname = usePathname()
   const cookies = parseCookies()
+  const isNotCheckAuthPage = ['/', '/login', '/register'].includes(pathname)
+
   const setRecoilUser = useSetRecoilState(authState)
   const currentUser = useRecoilValue(authState)
   const [loading, setLoading] = useState<boolean>(currentUser ? true : false)
-  const isNotCheckAuthPage = ['/', '/login', '/register'].includes(pathname)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
