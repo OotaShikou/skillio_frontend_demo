@@ -1,10 +1,10 @@
-import { Search } from 'lucide-react'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { authState } from '@/recoil/atoms/authState'
 
 import { MainNav } from './MainNav'
+import { Search } from './Search'
 import TeamSwitcher from './TeamSwitcher'
 import { UserNav } from './UserNav'
 

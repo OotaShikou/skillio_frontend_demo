@@ -1,33 +1,59 @@
 'use client'
+
 import { onAuthStateChanged } from 'firebase/auth'
 import { useRouter, usePathname } from 'next/navigation'
-import React, { useEffect } from 'react'
-import { useSetRecoilState } from 'recoil'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
+import React, { useEffect, useState } from 'react'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { Icons } from '@/components/ui/icons'
 
+import { User } from '@/db/schema'
+import fetchWithAuth from '@/lib/clientApi'
 import { auth } from '@/lib/firebase-config'
 import { authState } from '@/recoil/atoms/authState'
 
+import HeaderNav from '../HeaderNav/HeaderNav'
+import { Sidebar } from '../Sidebar/Sidebar'
+
 const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const setUser = useSetRecoilState(authState)
   const router = useRouter()
   const pathname = usePathname()
-  const [loading, setLoading] = React.useState<boolean>(true)
+  const cookies = parseCookies()
+  const setRecoilUser = useSetRecoilState(authState)
+  const currentUser = useRecoilValue(authState)
+  const [loading, setLoading] = useState<boolean>(currentUser ? true : false)
+  const isNotCheckAuthPage = ['/', '/login', '/register'].includes(pathname)
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
-      setUser(user)
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        if (pathname === '/login' || pathname === '/register') {
-          router.push('/dashboard')
+        let userData: User = cookies.userData ? JSON.parse(cookies.userData) : null
+        userData && setRecoilUser(userData)
+        if (!currentUser && !userData) {
+          await fetchWithAuth('/api/user', 'GET', {
+            accessToken: await user.getIdToken(),
+          }).then((res) => {
+            const userData: User = res.user[0]
+            setCookie(null, 'userData', JSON.stringify(userData), {
+              maxAge: 3600 * 24 * 7,
+              path: '/',
+            })
+            setRecoilUser(userData)
+          })
         }
+        if (isNotCheckAuthPage) router.push('/dashboard')
       } else {
-        router.push('/login')
+        setRecoilUser(null)
+        destroyCookie(null, 'userData')
+        if (pathname !== '/login') router.push('/login')
       }
       setLoading(false)
     })
-  }, [setUser, router, pathname])
+
+    return () => unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, pathname])
 
   return (
     <div>
@@ -36,7 +62,13 @@ const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           <Icons.spinner className="mr-2 h-8 w-8 animate-spin" color="purple" />
         </div>
       ) : (
-        children
+        <div>
+          {!isNotCheckAuthPage && <HeaderNav />}
+          <div className={isNotCheckAuthPage ? '' : 'grid border-t lg:grid-cols-5'}>
+            {!isNotCheckAuthPage && <Sidebar />}
+            <div className="col-span-3 lg:col-span-4 lg:border-l">{children}</div>
+          </div>
+        </div>
       )}
     </div>
   )
