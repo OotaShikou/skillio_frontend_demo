@@ -64,15 +64,26 @@ export async function PUT(req: NextRequest) {
   if ('error' in result && result.error) return NextResponse.json({ error: `Invalid: ${result.error}` })
 
   const body = await req.json()
+  if (!body.workbookId) return NextResponse.json({ error: 'Workbook ID is required' })
 
   const updatedWorkbook = await db
     .update(workbooks)
     .set({
       title: body.title,
     })
-    .where(eq(workbooks.id, body.id))
+    .where(eq(workbooks.id, body.workbookId))
     .returning()
 
   if (updatedWorkbook.length === 0) return NextResponse.json({ error: 'Workbook not found' })
   return NextResponse.json({ workbook: updatedWorkbook[0] })
+}
+
+export async function DELETE(req: NextRequest) {
+  const result = await authenticateToken(req)
+  if ('error' in result && result.error) return NextResponse.json({ error: `Invalid: ${result.error}` })
+
+  const body = await req.json()
+
+  const deletedWorkbook = await db.delete(workbooks).where(eq(workbooks.id, body.workbookId)).returning()
+  return NextResponse.json({ workbook: deletedWorkbook })
 }
