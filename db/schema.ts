@@ -30,11 +30,13 @@ export const workbooks = pgTable(
     userIdIndex: index('workbook_user_id_index').on(table.userId),
   }),
 )
-export const workbookRelations = relations(workbooks, ({ one }) => ({
+export const workbookRelations = relations(workbooks, ({ one, many }) => ({
   user: one(users, {
     fields: [workbooks.userId],
     references: [users.id],
   }),
+  questions: many(questions),
+  students: many(students),
 }))
 
 export const questionType = pgEnum('question_type', ['simple', 'essay', 'select', 'fill_in_the_blank'])
@@ -108,7 +110,11 @@ export const studentRelations = relations(students, ({ one }) => ({
 }))
 
 export type User = InferSelectModel<typeof users>
-export type Workbook = InferSelectModel<typeof workbooks>
+export type Workbook = InferSelectModel<typeof workbooks> & {
+  user?: User
+  students?: Student[]
+  questions?: Question[]
+}
 export type Question = InferSelectModel<typeof questions>
 export type Answer = InferSelectModel<typeof answers>
 export type Student = InferSelectModel<typeof students>
