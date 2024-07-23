@@ -66,7 +66,7 @@ const AuthContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           {!isNotCheckAuthPage && <HeaderNav />}
           <div className={isNotCheckAuthPage ? '' : 'grid border-t lg:grid-cols-5'}>
             {!isNotCheckAuthPage && <Sidebar />}
-            <div className="col-span-3 lg:col-span-4 lg:border-l">{children}</div>
+            <div className="col-span-3 overflow-x-hidden lg:col-span-4 lg:border-l">{children}</div>
           </div>
         </div>
       )}

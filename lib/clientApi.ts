@@ -1,3 +1,5 @@
+import { User } from 'firebase/auth'
+
 import { auth } from '@/lib/firebase-config'
 
 interface FetchOptions extends RequestInit {
@@ -7,7 +9,17 @@ interface FetchOptions extends RequestInit {
 }
 
 async function fetchWithAuth(url: string, method: string, options: FetchOptions = {}) {
-  const accessToken = options?.accessToken ?? (await auth.currentUser?.getIdToken())
+  const accessToken =
+    options?.accessToken ??
+    (await (async () => {
+      const user: User = await new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged((user: User | null) => {
+          unsubscribe()
+          user ? resolve(user) : reject(new Error('User is not authenticated'))
+        })
+      })
+      return await user.getIdToken()
+    })())
   const headers = new Headers({
     'Content-Type': 'application/json',
     Authorization: `Bearer ${accessToken}`,
